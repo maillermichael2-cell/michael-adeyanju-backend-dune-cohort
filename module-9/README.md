@@ -5,6 +5,9 @@
 users and allows users to buy products. the backend allows the user to be able to buy and 
 sell products.
 
+WHAT TORILOSHOP NOW HAVE:
+    a. users can now view products and categories 
+
 ### Models 
         1. Category model : this is like the descripton and type of the prodcts (for each product there`s a category) this saves the category of each product to the database.
         2. Product model: this saves the product to the database (with the category (using foriegn key)).
@@ -39,14 +42,24 @@ sell products.
 |                               | the home view to display a welcome  | view.
 |                               | message to the users                |
 |-------------------------------|-------------------------------------|----------------------------------------------------------------------|
-| 4. 404 page                   |  in the products views.py we created| re_path(r'^.*$', page_not_found) we use the repath module 
+| 4. 404 page                   |  in the products views.py we created| path(<unidentified_path>, page_not_found) we use the repath module 
 |                               | a view to detect if a url entered is| to check for the invalid urls entered by user. its defined 
 |                               | actually an existing defined url if | in the root url of the project.
 |                               | not it displayes a 404 page.        |
-|_______________________________|_____________________________________|______________________________________________________________________|
+|-------------------------------|-------------------------------------|----------------------------------------------------------------------|
+| 5. product_detail             | in the products views.py we created | we used the products/<int:pk>/ to display each product detail
+|                               | a view to display each product      |
+|                               | detail product_detail view.         |
+|-------------------------------|-------------------------------------|-----------------------------------------------------------------------|
+| 6. category_list              | in the products views.py we created | we used the categories/ as the urls 
+|                               | a view that displayes category list |
 
 
 ## SETUP INSTRUCTIONS
+    MOVING IN DIRECTORIES: 
+        a. cd into the assignments folder
+        b. cd into module-9 folder
+        c. then cd into torilo shop 
 1. CREATE A VIRTUAL ENVRONMENT: py -m venv env would create a virtual env 
 2. ACTIVATE THE VIRTUAL ENVIRONMENT: env\Scripts\Activate would activate the virtual env
 3. INSTALL DJANGO:  pip install django would install django in your vitual env 
@@ -57,12 +70,6 @@ sell products.
 
 # SCREEN SHOTS 
 1. HOME PAGE  ![Home Page](screenshots/01_home_page.png)
-2. PRODUCT PAGE ![Products Page](screenshots/02_products_page.png)
+2. CATEGORY LIST ![Category List](screenshots/02_category_list.png)
 3. ABOUT PAGE ![About Page](screenshots/03_about_page.png)
-4. PROJECT STRUCTURE ![Project Strcture](screenshots/04_project_structure.png)
-5. ADMIN CATEGORY LIST ![Admin Category List](screenshots/01_admin_category_list.png)
-6. ADMIN PRODUCT LIST ![Admin Product List](screenshots/02_admin_product_list.png)
-7. ALL PRODUCTS SHELL ![All Products Shell](screenshots/03_shell_all_products.png)
-8. FILTER BY CATEGORY SHELL ![Filter By Category Shell](screenshots/04_shell_filter_by_category.png)
-9. PRICE FILTER SHELL ![Price Filter Shell](screenshots/05_shell_price_filter.png)
-10. MIGRATION SUCCESS ![Migration Success Shell](screenshots/06_migration_success.png)
+4. PRODUCT LIST ![Product List](screenshots/04_product_list.png)

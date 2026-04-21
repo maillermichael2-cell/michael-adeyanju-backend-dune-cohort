@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - ToriloShop{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h1>{{ product.name }}</h1>
+        
+        <p><strong>Category:</strong> {{ product.category }}</p>
+        <p><strong>Price:</strong> ₦{{ product.price|floatformat:2 }}</p>
+        <p><strong>Stock:</strong> {{ product.stock }} units</p>
+        
+        {% if product.stock > 0 %}
+            <span style="background: #d4edda; color: #155724; padding: 5px 10px; border-radius: 4px; display: inline-block;">
+                ✓ In Stock
+            </span>
+        {% else %}
+            <span style="background: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 4px; display: inline-block;">
+                ✗ Out of Stock
+            </span>
+        {% endif %}
+        
+        <p style="margin-top: 30px;">
+            <a href="/products/" style="color: #1a1a2e;">← Back to Products</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

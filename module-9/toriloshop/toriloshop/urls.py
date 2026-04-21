@@ -24,3 +24,5 @@ urlpatterns = [
 
     path('<path:undefined_path>', page_not_found)
 ]
+
+handler404 = 'products.views.page_not_found'

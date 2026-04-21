@@ -1,0 +1,14 @@
+<!-- templates/products/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home - ToriloShop{% endblock %}
+
+{% block content %}
+    <h1>Welcome to ToriloShop</h1>
+    <p>Your one-stop destination for amazing products!</p>
+    
+    <div class="link">
+        <p><a href="{% url 'product_list' %}">View all products →</a></p>
+        <p><a href="{% url 'category_list' %}">View all categories</a></p>
+    </div>
+{% endblock %}
