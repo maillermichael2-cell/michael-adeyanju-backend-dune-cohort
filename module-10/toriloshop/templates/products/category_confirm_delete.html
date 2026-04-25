@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Delete {{category.name}}</h2>
+    <p>This action cannot be undone.</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">yes, Delete</button>
+        <a href="{% url 'category_list' %}">x</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {%if form.instance.pk%}
+        Edit Categories
+    {%else%}
+        Add Categories
+    {%endif%}
+{% endblock %}
+
+{%block content%}
+    <h2>
+        {%if form.instance.pk%}
+            Edit Categories
+        {%else%}
+            Add New Category
+        {%endif%}
+    </h2>
+
+    <form method="POST" style="display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 20px;margin-top: 20px;">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button type="submit" style="width: 20%;height: 40px;background-color: black;color: white;border-radius: 10px;border: transparent;" type="submit">
+            {% if form.instance.pk %}
+                Update Category
+            {% else %}
+                Save Category
+            {% endif %}
+        </button>
+    </form>
+
+    <!--display errors-->
+    {% if form.errors %}
+        <div style="margin-top: 20px;color: red;">
+            <h4>Errors:</h4>
+            <ul>
+                {% for fields, errors in forms.erros.items %}
+                    {% for error in errors %}
+                        <li><strong>{{ fields }}</strong>: {{error}}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'category_list' %}">Back to category</a>
+{% endblock %}

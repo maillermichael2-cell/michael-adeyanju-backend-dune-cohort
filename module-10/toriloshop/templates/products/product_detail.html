@@ -21,8 +21,10 @@
             </span>
         {% endif %}
         
-        <p style="margin-top: 30px;">
-            <a href="/products/" style="color: #1a1a2e;">← Back to Products</a>
+        <p style="margin-top: 30px;display: flex;justify-content: space-between;align-items: center;">
+            <a href="/products/" style="color: #1a1a2e;text-decoration: none;">← Back to Products</a>
+            <a href="{% url 'product_update' product.pk %}" style="color: #1a1a2e;text-decoration: none;">Edit Product</a>
+            <a href="{% url 'product_delete' product.pk %}" style="color: red;text-decoration: none;">X Delete Product</a>
         </p>
     </div>
 </div>

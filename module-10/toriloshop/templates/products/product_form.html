@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {%if form.instance.pk%}
+        Edit Product
+    {%else%}
+        Add Product
+    {%endif%}
+{% endblock %}
+
+{%block content%}
+    <h2>
+        {%if form.instance.pk%}
+            Edit Product
+        {%else%}
+            Add New Product
+        {%endif%}
+    </h2>
+
+    <form method="POST" style="width: 100%;height: auto;display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 30px;margin-top: 20px;">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button style="width: 20%;height: 40px;background-color: black;color: white;border-radius: 10px;border: transparent;" type="submit">
+            {% if form.instance.pk %}
+                update Product
+            {% else %}
+                Save Product
+            {% endif %}
+        </button>
+    </form>
+
+    <!--display errors-->
+    {% if form.errors %}
+        <div style="margin-top: 20px;color: red;">
+            <h4>Errors:</h4>
+            <ul>
+                {% for fields, errors in forms.erros.items %}
+                    {% for error in errors %}
+                        <li><strong>{{ fields }}</strong>: {{error}}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'product_list' %}">Back to Product</a>
+{% endblock %}

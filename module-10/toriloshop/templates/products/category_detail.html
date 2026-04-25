@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - ToriloShop{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h1>{{ product.name }}</h1>
+        
+        <p><strong>Category Name:</strong> {{ category.name }}</p>
+        <p><strong>Description:</strong> {{ category.description }}</p>
+        
+        <p style="margin-top: 30px;display: flex;justify-content: space-around;align-items: center;">
+            <a href="/categories/" style="color: #1a1a2e;text-decoration: none;">← Back to Categories</a>
+            <a href="{% url 'category_update' category.pk %}" style="color: #1a1a2e;text-decoration: none;">Edit Category</a>
+            <a href="{% url 'category_delete' category.pk %}" style="color: red;text-decoration: none;">X Delete Category</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

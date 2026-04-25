@@ -15,10 +15,12 @@
                     {{category.products.count }} products
                 </strong>
             </p>
+            <a href="{% url 'category_detail' category.id %}">Details</a>
         </div>
     {% empty %}
         <p>No categories found.</p>
     {% endfor %}
  </div>
  <p style="margin-top: 20px;"><a href="/">Back to Home</a></p>
+ <a href="/categories/add/">Add Categories</a>
  {% endblock %}
