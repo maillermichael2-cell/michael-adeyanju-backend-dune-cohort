@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} Login - ToriloShop{% endblock %}
+
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Create an account</h2>
+        <p>join toriloshop to start shopping</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{form.as_p}}
+            </div>
+            <button class="loginBtn" type="submit">Register</button>
+        </form>
+        <div class="auth-footer">
+            <p>Already have an account login <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

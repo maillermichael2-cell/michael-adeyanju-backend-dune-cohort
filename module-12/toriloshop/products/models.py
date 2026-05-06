@@ -25,4 +25,5 @@ class Product(models.Model):
 
 
 
-    # username = django , password : dare1234
+    # username = django , password : dare1234 for admin login
+    # username = customer2 password : dare1234 for customer login

@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import ProductForm, CategoryForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -38,7 +39,12 @@ def page_not_found(request, undefined_path=None, execption=None):
     detail = undefined_path or str(execption) or 'Unknown error'
     return HttpResponse(f'Error 404: {detail}', content_type="text/plain", status=404)
 
+@login_required
 def product_create(request):
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to create products')
+        return redirect('product_list')
+    
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -50,8 +56,14 @@ def product_create(request):
     
     return render(request, 'products/product_form.html', {'form':form})
 
+@login_required
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
+
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to update this product')
+        return redirect('product_list')
+    
     if request.method == 'POST':
         form = ProductForm(request.POST,request.FILES, instance=product)
         if form.is_valid():
@@ -63,19 +75,29 @@ def product_update(request, pk):
     
     return render(request, 'products/product_form.html', {'form':form})
 
+@login_required
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to delete this product')
+        return redirect('product_list')
+    
     if request.method == 'POST':
         product_name = product.name
         product.delete()
-        messages.success(request, f'{product_name} deleted successfully.')
+        messages.success(request, f'{product_name} deleted successfully')
         return redirect('product_list')
-    return render(request, 'products/product_confirm_delete.html', {'product':product})
+    
+    return render(request, 'products/product_confirm_delete.html', {'product': product})
 
 
-
-
+@login_required
 def category_create(request):
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to create category')
+        return redirect('category_list')
+    
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
@@ -87,8 +109,13 @@ def category_create(request):
         
     return render(request, 'products/category_form.html', {'form':form})
 
+@login_required
 def category_update(request, pk):
     category = get_object_or_404(Category, pk=pk)
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to  update category ')
+        return redirect('category_list')
+    
     if request.method == 'POST':
         form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
@@ -100,8 +127,14 @@ def category_update(request, pk):
         
     return render(request, 'products/category_form.html', {'form':form})
 
+@login_required
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
+
+    if not request.user.is_staff:
+        messages.error(request, 'You are not authorized to delete this category')
+        return redirect('category_list')
+
     if request.method == 'POST':
         category_name = category.name
         category.delete()

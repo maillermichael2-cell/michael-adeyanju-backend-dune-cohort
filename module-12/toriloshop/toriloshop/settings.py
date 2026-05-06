@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'users',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,9 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+#auth redirect conf 
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/'

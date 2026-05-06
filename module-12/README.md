@@ -1,20 +1,23 @@
 ### PROJECT DESCRIPTION 
-        IMPROVEMENTS : 
-            a. products now has images to describe the product physically 
-            b. products can now be inputed with images included 
-            c. search fields to search products by name 
-             
+        AUTH FEATURES :
+            a. login users as customers and admin
+            b. register user 
+            c. logout users
+            d. only admin can delete products and categories 
+            c. protected routes 
 
 ## TORILO SHOP FEATURES 
 |   FEATURES                        |
 |-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| A. CSS                            | static files new has a css file to style all pages . 
+| A. LOGIN                          | using the built in login auth view and url to login users
 |-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| B. IMAGE FIELD                    | image field added to the models so users can enter products with image configred `MEDIA_ROOT/URL` for image hosting
+| B. LOGOUT                         | using the built in logout view and url to logout users
 |-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| C. ADMIN CUSTOMIZATION            | admin diaplays : list of products, products by category, search field 
+| C. REGISTRATION                   | using the register form to register users.
 |-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| D. BULK ACTION                    | BULK ACTION: added mark as out of stock to update multiple products at once
+| D. PROTECTED ROUTES               | using @login_required to protect routes 
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| E. NAVBAR CHAGES                  | using django templates conditionals to display welcome message for logged in user or login and register links
 |___________________________________|__________________________________________________________________________________________________________________________________|
 
 ## SETUP INSTRUCTIONS
@@ -22,6 +25,7 @@
         a. cd into the assignments folder
         b. cd into module-9 folder
         c. then cd into torilo shop 
+        d. then install pillow pip install pillow or py -m pip install pillow
 1. CREATE A VIRTUAL ENVRONMENT: py -m venv env would create a virtual env 
 2. ACTIVATE THE VIRTUAL ENVIRONMENT: env\Scripts\Activate would activate the virtual env
 3. INSTALL DJANGO:  pip install django would install django in your vitual env 
@@ -31,8 +35,8 @@
 
 
 # SCREEN SHOTS 
-1. PRODUCT LIST WITH IMAGE ![product list with image](screenshots/01_product_list_with_images.png)
-2. PRODUCT DETAIL WITH IMAGES ![PRODUCT DETAIL WITH IMAGES](screenshots/02_product_detail_with_image.png)
-3. ADMIN CUSTOM LIST ![admin custom list](screenshots/03_admin_custom_list.png)
-4. ADMIN SEARCH AND FILTER ![admin search and filter](screenshots/04_admin_search_and_filter.png)
-5. COLLECT STATIC OUTPUT ![collect static output](screenshots/05_collectstatic_output.png)
+1. LOGIN PAGE ![login page](screenshots/01_login_page.png)
+2. REGISTER PAGE ![register page](screenshots/02_register_page.png)
+3. PROTECTED ROUTES REDIRECT ![protected routes redirect](screenshots/03_protected_route_redirect.png)
+4. LOGGED IN NAVBAR ![logged in navbar](screenshots/04_logged_in_navbar.png)
+5. LOGGED OUT NAVBAR ![logged out navbar](screenshots/05_logged_out_navbar.png)

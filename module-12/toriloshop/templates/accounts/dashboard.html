@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Dashboard - ToriloShop{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>User Dashboard</h2>
+        <div class="dashboard-info">
+            <p><strong>Username:</strong>{{user.username}}</p>
+            <p><strong>Email:</strong>{{user.email}}</p>
+            <p><strong>Account Type:</strong>
+                {% if user.is_staff %}
+                    <span class="badge">Staff / Administration</span>
+                {% else %}
+                    <span class="badge">Customer</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="auth-footer">
+            <a  href="{% url 'product_list' %}" class="loginBtna">View Product</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
