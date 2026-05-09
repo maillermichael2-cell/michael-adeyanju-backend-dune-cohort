@@ -41,7 +41,14 @@ INSTALLED_APPS = [
     'products',
     'users',
     'accounts',
+    'rest_framework',       # restframework app 
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": ['rest_framework.renderers.JSONRenderer'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,6 +134,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 #auth redirect conf 
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/'

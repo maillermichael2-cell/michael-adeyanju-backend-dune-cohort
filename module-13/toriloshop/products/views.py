@@ -5,6 +5,15 @@ from django.http import HttpResponse
 from django.contrib import messages
 from .forms import ProductForm, CategoryForm
 from django.contrib.auth.decorators import login_required
+# new import
+import json
+from django.http import JsonResponse
+# rest framework
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import ProductSerializer, CategorySerializer
+
 
 
 # Create your views here.
@@ -147,3 +156,100 @@ def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
     context = {'category': category}
     return render(request, 'products/category_detail.html', context)
+
+
+
+
+
+
+# JSON VIEWS FORM PRODUCT LIST AND PRODUCT DETAIL JSON
+
+def product_list_json(request):
+    products = Product.objects.all()
+    data = [
+        {
+            "id": p.id,
+            "name": p.name,
+            "price": str(p.price),
+            "stock": p.stock,
+            "is_available": p.is_available,
+        }for p in products
+    ]
+    return JsonResponse(data, safe=False)
+
+def product_detail_json(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+        data = {
+            "id": product.id,
+            "name": product.name,
+            "price": str(product.price),
+            "stock":product.stock,
+        }
+        return JsonResponse(data)
+    except Product.DoesNotExist:
+        error = {'error': 'Product Not Found'}
+        return JsonResponse(error, status=404)
+
+
+class ProductListAPIView(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    
+
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ProductDetailAPIView(APIView):
+    def get_object(self, pk):
+        try: 
+            return Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return None
+    
+    def get(self, request, pk):
+        product = self.get_object(pk)
+
+        if product is None:
+            return Response(
+                {'error': 'Not Found'},
+                status = status.HTTP_404_NOT_FOUND
+            )
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        product = self.get_object(pk)
+        if product is None:
+            return Response({'error': 'Product Not Found'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    def delete(self, request, pk):
+        product = self.get_object(pk)
+
+        if product is None:
+            return Response(
+                {'error': 'Not Found'},
+                status = status.HTTP_404_NOT_FOUND
+            )
+        product.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CategoryListAPIView(APIView):
+    def get(self, request):
+        category = Category.objects.all()
+        serializer = CategorySerializer(category, many=True)
+        return Response(serializer.data)
