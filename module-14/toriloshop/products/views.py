@@ -13,6 +13,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ProductSerializer, CategorySerializer
+# 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
+from .pagination import ProductPagination
+from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 
@@ -192,17 +202,42 @@ def product_detail_json(request, pk):
         return JsonResponse(error, status=404)
 
 
+
+# lis all products  and add new product
 class ProductListAPIView(APIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = ProductPagination
+    authentication_classes = [JWTAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend,SearchFilter, OrderingFilter ]
+    filterset_fields = ["category", "is_available"]
+    search_fields = ["name", "category_name"]
+    ordering_fields = ["price","created_at","stock"]
+    ordering = ["-created_at"]
+
+    def filter_queryset(self, queryset):
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
+
     def get(self, request):
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
+        filtered_queryset = self.filter_queryset(self.queryset)
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(filtered_queryset, request, view=self )
+
+        if page is not None:
+            serializer = self.serializer_class(page, many=True)
+            return paginator.get_paginated_response(serializer.data)
+
+        serializer = self.serializer_class(filtered_queryset, many=True)
         return Response(serializer.data)
     
 
     def post(self, request):
-        serializer = ProductSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(created_at=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -253,3 +288,16 @@ class CategoryListAPIView(APIView):
         category = Category.objects.all()
         serializer = CategorySerializer(category, many=True)
         return Response(serializer.data)
+    
+
+
+# new product create view 
+
+class ProductCreateApiView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(created_by=request.user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.erros, status=400)

@@ -1,7 +1,7 @@
 from django.urls import path
 from .import views 
 from .views import product_list_json, product_detail_json 
-from .views import ProductListAPIView, ProductDetailAPIView, CategoryListAPIView
+from .views import ProductListAPIView, ProductDetailAPIView, CategoryListAPIView,ProductCreateApiView
 
 
 urlpatterns = [
@@ -32,4 +32,8 @@ urlpatterns = [
 
     #LIST ALL CATEGORIES
     path('api/categories/', CategoryListAPIView.as_view(), name='api-category-list'),
+
+    path('products/create/', ProductCreateApiView.as_view(), name='product-create'),
 ]
+
+
