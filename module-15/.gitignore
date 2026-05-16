@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+db.sqlite3
+../env/
+.qodo
+media 
+.env  # Environment variables file, should not be committed to version control
+*.env  # Any file with .env extension, to ensure all environment variable files are ignored
